@@ -27,12 +27,14 @@ function newHexColorInput(itemCount){
 }
 
 hexInputContainer.append(newHexColorInput(counter))
+let localStorageColors = localStorage.getItem("colors") ? JSON.parse(localStorage.getItem("colors")) : []
+
+const colorCards = document.querySelector("#colorcards")
 
 hexForm.addEventListener("submit", (event) =>{
   event.preventDefault();
 
   //renk paletine yenilerini ekleyebilmek için renk dizilerini bir daha diziye aldım.
-  let localStorageColors = localStorage.getItem("colors") ? JSON.parse(localStorage.getItem("colors")) : []
 
   //forma yazdıklarımı bir array in içine aldım.
   let colors = [];
@@ -42,9 +44,38 @@ hexForm.addEventListener("submit", (event) =>{
     }
   })
   localStorageColors.push(colors)
+  colorCards.append(addColorPalette(colors))
 
   localStorage.setItem("colors", JSON.stringify(localStorageColors))
   hexForm.reset();
+  
 })
 
 
+if(localStorageColors.length >0){
+  localStorageColors.forEach((colors) =>{
+    colorCards.append(addColorPalette(colors))
+  })
+}
+
+function addColorPalette(items) {
+  const rowElement = document.createElement("div")
+  rowElement.classList.add("row", "gap-3")
+
+  items.forEach((item) =>{
+    const cardItem = document.createElement("div")
+    cardItem.classList.add("col-sm", "card", "my-2", "colorCard")
+    cardItem.style.backgroundColor = item
+    rowElement.append(cardItem)
+  })
+  return rowElement;
+}
+
+const colorCardItems = document.querySelectorAll(".colorCard")
+colorCardItems.forEach(card => {
+  card.addEventListener("click", () => {
+    console.log(card.style.backgroundColor)
+    navigator.clipboard.writeText(card.style.backgroundColor)
+    alert("renk kopyalandı.")
+  })
+})
