@@ -1,5 +1,5 @@
-const hexInputContainer = document.querySelector("#hexInputContainer");
 const hexForm = document.querySelector("#hexColorForm");
+const hexInputContainer = document.querySelector("#hexInputContainer");
 
 const addNew = document.querySelector("#addNewBtn");
 let counter = 1;
@@ -14,7 +14,7 @@ function newHexColorInput(itemCount){
     newDivElement.classList.add("col-sm")
 
     newDivElement.innerHTML = `
-    <label for="colorInput-${itemCount}" class="form-label">HEX Color</label>
+    <label for="colorInput-${itemCount}" class="form-label">HEX Color:</label>
     <input 
     type="text" 
     minlength="7" maxlength="7"
@@ -25,8 +25,8 @@ function newHexColorInput(itemCount){
     `
     return newDivElement;
 }
-
 hexInputContainer.append(newHexColorInput(counter))
+
 let localStorageColors = localStorage.getItem("colors") ? JSON.parse(localStorage.getItem("colors")) : []
 
 const colorCards = document.querySelector("#colorcards")
